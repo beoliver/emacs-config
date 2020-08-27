@@ -1,12 +1,12 @@
 #+PROPERTY: header-args :tangle init-extended.el :padline yes :comments link
 
-The PROPERTY header allows us to `tangle` this file and produce an emacs lisp file `init-extended.el`.
-The use of the `padline` and `comments` directives allow for navigation back to this file if there are any issues
+The =#+PROPERTY= header allows us to *tangle* this file and produce an emacs lisp file =init-extended.el=.
+The use of the =padline= and =comments= directives allow for navigation back to this file if there are any issues
 in the generated code. See [[https://orgmode.org/manual/Extracting-Source-Code.html#Extracting-source-code][here]] for more information.
 
-* helper Functions
+* Helper Functions
 
-M-x init to edit this file
+Use =M-x init= to edit this file
 
 #+BEGIN_SRC emacs-lisp
   (defun init ()
@@ -102,7 +102,7 @@ To use shell variables
 
 * Customizations
 
-We set an explicit file for customized variables. This means that we will not get extra data appened onto the `init.el` file
+We set an explicit file for customized variables. This means that extra data will not be appened to the `init.el` file
 
 #+BEGIN_SRC emacs-lisp
   (setq custom-file "~/.emacs.d/custom.el")
@@ -117,14 +117,14 @@ We might as well load the customizations straight away
 
 * Packages
 
-I am using the [[https://github.com/jwiegley/use-package][use-package]] library for loading packages
-
 #+BEGIN_SRC emacs-lisp
   (setq package-archives
 	'(("gnu" . "https://elpa.gnu.org/packages/")
 	  ("marmalade" . "https://marmalade-repo.org/packages/")
 	  ("melpa" . "https://melpa.org/packages/")))
 #+END_SRC
+
+I am using the [[https://github.com/jwiegley/use-package][use-package]] library for loading packages
 
 In emacs versions prior to 27 we need to `package-initialize` in order to use `use-package`
 
@@ -235,9 +235,9 @@ I am not actually sure if `eval-when-compile` is required. But the example uses 
 
 ** Org
 
-You can use '< s <tab>' to create an empty code block
+You can use =< s <tab>= to create an empty code block
 
-When creating source code blocks it is nice to have them auto format when pressing <tab>
+When creating source code blocks it is nice to have them auto format when pressing =<tab>=
 
 #+BEGIN_SRC emacs-lisp
   (use-package org
@@ -268,9 +268,9 @@ When creating source code blocks it is nice to have them auto format when pressi
 
 #+BEGIN_SRC emacs-lisp
   (use-package doom-themes
-      :config
-      (setq doom-themes-enable-bold t
-	    doom-themes-enable-italic t))
+    :config
+    (setq doom-themes-enable-bold t
+	  doom-themes-enable-italic t))
 
   (when-gui
    (load-theme 'doom-outrun-electric t))
@@ -318,24 +318,23 @@ When creating source code blocks it is nice to have them auto format when pressi
 ** GUI settings
 
 #+BEGIN_SRC emacs-lisp
-(when-gui
-(menu-bar-mode 1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(set-frame-size (selected-frame) 120 55)
-(set-frame-position (selected-frame) 50 70)
-(setq-default cursor-type 'bar) ;; bar | block
-(setq-default fill-column 80)
-(set-face-attribute 'default nil :family "PragmataPro" :height 130)
-(setq-default line-spacing 2)
-(global-linum-mode t)
-(setq linum-format "%4d")
-(set-frame-parameter nil 'internal-border-width 20)
-(fringe-mode '(50 . 50))
-(set-face-attribute 'fringe nil
-:foreground (face-foreground 'default)
-:background (face-background 'default))
-)
+  (when-gui
+   (menu-bar-mode 1)
+   (tool-bar-mode -1)
+   (scroll-bar-mode -1)
+   (set-frame-size (selected-frame) 120 55)
+   (set-frame-position (selected-frame) 50 70)
+   (setq-default cursor-type 'bar) ;; bar | block
+   (setq-default fill-column 80)
+   (set-face-attribute 'default nil :family "PragmataPro" :height 130)
+   (setq-default line-spacing 2)
+   (global-linum-mode t)
+   (setq linum-format "%4d")
+   (set-frame-parameter nil 'internal-border-width 20)
+   (fringe-mode '(50 . 50))
+   (set-face-attribute 'fringe nil
+		       :foreground (face-foreground 'default)
+		       :background (face-background 'default)))
 #+END_SRC
 
 
