@@ -1,0 +1,24 @@
+* Emacs Config
+
+Yet another online config
+
+** What is it?
+
+An emacs config inspired in no small part by this [[https://github.com/larstvei/dot-emacs][project]].
+
+Assuming that you normally start emacs from an =init.el= file located in =~/.emacs.d=
+
+#+BEGIN_SRC sh
+
+$ git clone git@github.com:beoliver/dot-emacs.git
+# make a copy of your existing init.el file
+$ mv ~/.emacs.d/init.el ~/.emacs.d/init-old.el
+
+$ cp dot-emacs/init.el dot-emacs/init.org ~/.emacs.d
+# if you have `custom-set-<name>` code in your existing init.el file
+# then you should create a new file called `custom.el`
+$ touch ~/.emacs.d/custom.el
+# and then just copy that code into this new file.
+# this will preserve your custom settings, and any updates will we written to this file
+
+#+END_SRC
