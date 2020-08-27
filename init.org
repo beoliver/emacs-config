@@ -1,0 +1,348 @@
+#+PROPERTY: header-args :tangle init-extended.el :padline yes :comments link
+
+The PROPERTY header allows us to `tangle` this file and produce an emacs lisp file `init-extended.el`.
+The use of the `padline` and `comments` directives allow for navigation back to this file if there are any issues
+in the generated code. See [[https://orgmode.org/manual/Extracting-Source-Code.html#Extracting-source-code][here]] for more information.
+
+* helper Functions
+
+M-x init to edit this file
+
+#+BEGIN_SRC emacs-lisp
+  (defun init ()
+    (interactive)
+    (find-file "~/.emacs.d/init.org"))
+#+END_SRC
+
+
+* Helper Macros
+
+Create the dual of `when`. I prefer this approach to using `if ... else ...` as it lets us isolate functionaility.
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro when-not (form &rest exprs)
+    `(when (not ,form)
+       ,@exprs))
+#+END_SRC
+
+Create macros that only evaluate the body when we are using a GUI or a terminal
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro when-gui (&rest exprs)
+    `(when (display-graphic-p)
+       ,@exprs))
+
+  (defmacro when-terminal (&rest exprs)
+    `(when-not (display-graphic-p) ,@exprs))
+#+END_SRC
+
+
+Create macros that only evaulate the body if we are running on a certain OS. this makes the config more portable.
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro when-system (system &rest exprs)
+    `(when (eq system-type ,system)
+       ,@exprs))
+
+  (defmacro when-macosx (&rest exprs)
+    `(when-system 'darwin ,@exprs))
+#+END_SRC
+
+
+* General Sanity
+
+#+BEGIN_SRC emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq make-backup-files nil
+        auto-save-default nil
+        inhibit-splash-screen 0
+        ring-bell-function 'ignore
+        mouse-wheel-progressive-speed nil)
+#+END_SRC
+
+
+* Mac OS X
+
+To use shell variables
+
+#+BEGIN_SRC emacs-lisp
+  (when-macosx
+   (setq shell-command-switch "-lc")
+   ;; (setq explicit-bash-args '("--login" "-i"))
+   )
+#+END_SRC
+
+
+* Paths
+
+#+BEGIN_SRC emacs-lisp
+  (setq default-directory "~/")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun set-exec-path (&rest paths)
+    "Set the `exec-path` to include any additional dirs."
+    (setq exec-path
+          (append exec-path paths)))
+
+  (set-exec-path "/usr/local/bin/" "~/bin")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun set-load-path (&rest paths)
+    (setq load-path
+          (append load-path
+                  (mapcar (lambda (fname)
+                            (expand-file-name fname user-emacs-directory))
+                          paths))))
+
+  (set-load-path "site-lisp" "lisp" "user-packages" "user-settings")
+#+END_SRC
+
+
+* Customizations
+
+We set an explicit file for customized variables. This means that we will not get extra data appened onto the `init.el` file
+
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file "~/.emacs.d/custom.el")
+#+END_SRC
+
+We might as well load the customizations straight away
+
+#+BEGIN_SRC emacs-lisp
+  (load custom-file)
+#+END_SRC
+
+
+* Packages
+
+I am using the [[https://github.com/jwiegley/use-package][use-package]] library for loading packages
+
+#+BEGIN_SRC emacs-lisp
+  (setq package-archives
+	'(("gnu" . "https://elpa.gnu.org/packages/")
+	  ("marmalade" . "https://marmalade-repo.org/packages/")
+	  ("melpa" . "https://melpa.org/packages/")))
+#+END_SRC
+
+In emacs versions prior to 27 we need to `package-initialize` in order to use `use-package`
+
+#+BEGIN_SRC emacs-lisp
+  (when (< emacs-major-version 27)
+    (package-initialize)
+    (setq package-enable-at-startup nil))
+#+END_SRC
+
+I am not actually sure if `eval-when-compile` is required. But the example uses it.
+
+#+BEGIN_SRC emacs-lisp
+  (eval-when-compile
+    (require 'use-package))
+#+END_SRC
+
+** Simple
+
+#+BEGIN_SRC emacs-lisp
+    (use-package simple
+      :hook ((before-save) . delete-trailing-whitespace)
+      :config (global-visual-line-mode 1))
+#+END_SRC
+
+** Paredit
+
+#+BEGIN_SRC emacs-lisp
+  (use-package paredit
+    :hook ((emacs-lisp-mode clojure-mode) . paredit-mode))
+#+END_SRC
+
+** Paren
+
+#+BEGIN_SRC emacs-lisp
+(use-package paren
+  :config (setq show-paren-style 'parenthesis
+		show-paren-when-point-inside-paren t
+		show-paren-when-point-in-periphery t)
+  :hook ((emacs-lisp-mode clojure-mode) . show-paren-mode))
+#+END_SRC
+
+** Aggrssive Indent
+
+#+BEGIN_SRC emacs-lisp
+  (use-package aggressive-indent
+    :hook ((emacs-lisp-mode clojure-mode) . aggressive-indent-mode))
+#+END_SRC
+
+** Company
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    ;; :bind ("TAB" . company-complete)
+    :config
+    (setq company-backends '(company-capf)
+          company-idle-delay nil
+          company-minimum-prefix-length 1)
+    :hook ((emacs-lisp-mode cider-repl-mode cider-mode intero-mode) . company-mode))
+#+END_SRC
+*** Company Quickhelp
+#+BEGIN_SRC emacs-lisp
+  (use-package company-quickhelp
+    :config (company-quickhelp-mode)
+    :after (company))
+#+END_SRC
+
+** Clojure
+*** Clojure Kondo
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck-clj-kondo
+    :ensure t
+    :hook ((clojure-mode) . flycheck-mode))
+#+END_SRC
+
+*** Cider
+
+#+BEGIN_SRC emacs-lisp
+  (use-package cider
+    :ensure t
+    :bind ("C-c M-b" . cider-repl-clear-buffer)
+    :init (setq cider-repl-display-help-banner nil)
+    :hook ((clojure-mode) . cider-mode))
+#+END_SRC
+
+*** Clojure Mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package clojure-mode
+    :ensure t
+    :config (require 'flycheck-clj-kondo))
+#+END_SRC
+
+*** Clojure Refactor
+
+#+BEGIN_SRC emacs-lisp
+  (use-package clj-refactor
+    :hook ((clojure-mode) . (lambda ()
+                              (yas-minor-mode 1)
+                              (clj-refactor-mode 1))))
+#+END_SRC
+
+** Python
+
+#+BEGIN_SRC emacs-lisp
+  (use-package python
+    :init (setq python-shell-interpreter "/usr/local/opt/python@3.8/bin/python3.8"))
+#+END_SRC
+
+** Org
+
+You can use '< s <tab>' to create an empty code block
+
+When creating source code blocks it is nice to have them auto format when pressing <tab>
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :init (setq org-src-tab-acts-natively t)
+    :config (org-indent-mode 1))
+#+END_SRC
+
+** Eshell
+#+BEGIN_SRC emacs-lisp
+  (use-package eshell
+   :ensure t
+   :bind ("C-c M-DEL" . (lambda () (interactive)
+			  (let ((eshell-buffer-maximum-lines 0))
+			    (eshell-truncate-buffer)))))
+#+END_SRC
+
+
+* Scratch Buffer
+
+#+BEGIN_SRC emacs-lisp
+  (setq initial-scratch-message "")
+#+END_SRC
+
+
+* Visual
+
+** Theme
+
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-themes
+      :config
+      (setq doom-themes-enable-bold t
+	    doom-themes-enable-italic t))
+
+  (when-gui
+   (load-theme 'doom-outrun-electric t))
+
+  (when-terminal
+   (load-theme 'doom-nova t))
+#+END_SRC
+
+*** Doom Theme names
+
+   doom-Iosvkem
+   doom-acario-dark
+   doom-acario-light
+   doom-challenger-deep
+   doom-city-lights
+   doom-dracula
+   doom-fairy-floss
+   doom-gruvbox
+   doom-laserwave
+   doom-material
+   doom-molokai
+   doom-moonlight
+   doom-nord
+   doom-nord-light
+   doom-nova
+   doom-oceanic-next
+   doom-one
+   doom-one-light
+   doom-opera
+   doom-opera-light
+   doom-outrun-electric
+   doom-palenight
+   doom-peacock
+   doom-snazzy
+   doom-solarized-dark
+   doom-solarized-light
+   doom-sourcerer
+   doom-spacegrey
+   doom-tomorrow-day
+   doom-tomorrow-night
+   doom-vibrant
+   doom-wilmersdorf
+
+
+** GUI settings
+
+#+BEGIN_SRC emacs-lisp
+(when-gui
+(menu-bar-mode 1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(set-frame-size (selected-frame) 120 55)
+(set-frame-position (selected-frame) 50 70)
+(setq-default cursor-type 'bar) ;; bar | block
+(setq-default fill-column 80)
+(set-face-attribute 'default nil :family "PragmataPro" :height 130)
+(setq-default line-spacing 2)
+(global-linum-mode t)
+(setq linum-format "%4d")
+(set-frame-parameter nil 'internal-border-width 20)
+(fringe-mode '(50 . 50))
+(set-face-attribute 'fringe nil
+:foreground (face-foreground 'default)
+:background (face-background 'default))
+)
+#+END_SRC
+
+
+** Terminal settings
+
+#+BEGIN_SRC emacs-lisp
+  (when-terminal
+   (menu-bar-mode -1)
+   (tool-bar-mode -1))
+#+END_SRC
