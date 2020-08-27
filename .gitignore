@@ -9,3 +9,13 @@
 
 # Undo-tree save-files
 *.~undo-tree
+
+.DS_Store
+transient
+network-security.data
+abbrev_defs
+custom.el
+elpa
+eshell
+tramp
+init-extended.el
