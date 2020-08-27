@@ -1,3 +1,5 @@
+#+TITLE: Emacs Org Configuration File
+#+AUTHOR: Benjamin Edward Oliver
 #+PROPERTY: header-args :tangle init-extended.el :padline yes :comments link
 
 The =#+PROPERTY= header allows us to *tangle* this file and produce an emacs lisp file =init-extended.el=.
