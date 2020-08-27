@@ -81,6 +81,12 @@ To use shell variables
   (setq default-directory "~/")
 #+END_SRC
 
+To make life easier with git versioning, we will set the =user-emacs-directory= to be a directory called =user= inside of the existing =user-emacs-directory=. This means that we dont need to add stuff to the =.gitignore= file.
+
+#+BEGIN_SRC emacs-lisp
+  (setq user-emacs-directory (concat user-emacs-directory "user/"))
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
   (defun set-exec-path (&rest paths)
     "Set the `exec-path` to include any additional dirs."

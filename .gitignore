@@ -11,11 +11,7 @@
 *.~undo-tree
 
 .DS_Store
-transient
-network-security.data
-abbrev_defs
+
+user
 custom.el
-elpa
-eshell
-tramp
 init-extended.el

@@ -6,15 +6,18 @@ Yet another online config
 
 An emacs config inspired in no small part by this [[https://github.com/larstvei/dot-emacs][project]].
 
+** How to use it?
+
+This is a config that I using. As it is under version controll I have changed the structure slightly.
+
 Assuming that you normally start emacs from an =init.el= file located in =~/.emacs.d=
 
 #+BEGIN_SRC sh
 
 $ git clone git@github.com:beoliver/dot-emacs.git
-# make a copy of your existing init.el file
-$ mv ~/.emacs.d/init.el ~/.emacs.d/init-old.el
+$ mv ~/.emacs.d dot-emacs/user
+$ mv dot-emacs ~/.emacs.d
 
-$ cp dot-emacs/init.el dot-emacs/init.org ~/.emacs.d
 # if you have `custom-set-<name>` code in your existing init.el file
 # then you should create a new file called `custom.el`
 $ touch ~/.emacs.d/custom.el
@@ -22,3 +25,5 @@ $ touch ~/.emacs.d/custom.el
 # this will preserve your custom settings, and any updates will we written to this file
 
 #+END_SRC
+
+The =user= directory that you create has been set to be the =user-emacs-directory=. This means that we can simply ignore version control when it comes to that directory.
