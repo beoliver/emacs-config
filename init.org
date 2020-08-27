@@ -262,6 +262,16 @@ When creating source code blocks it is nice to have them auto format when pressi
 			    (eshell-truncate-buffer)))))
 #+END_SRC
 
+** Ido
+
+   [[https://www.emacswiki.org/emacs/InteractivelyDoThings][Ido]] mode is nice for searching
+
+#+BEGIN_SRC emacs-lisp
+    (use-package ido
+      :ensure t
+      :config (ido-mode t))
+#+END_SRC
+
 
 * Scratch Buffer
 
