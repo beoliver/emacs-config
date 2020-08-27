@@ -291,7 +291,7 @@ When creating source code blocks it is nice to have them auto format when pressi
 	  doom-themes-enable-italic t))
 
   (when-gui
-   (load-theme 'doom-outrun-electric t))
+   (load-theme 'doom-nord-light t))
 
   (when-terminal
    (load-theme 'doom-nova t))
@@ -299,38 +299,40 @@ When creating source code blocks it is nice to have them auto format when pressi
 
 *** Doom Theme names
 
-   doom-Iosvkem
-   doom-acario-dark
-   doom-acario-light
-   doom-challenger-deep
-   doom-city-lights
-   doom-dracula
-   doom-fairy-floss
-   doom-gruvbox
-   doom-laserwave
-   doom-material
-   doom-molokai
-   doom-moonlight
-   doom-nord
-   doom-nord-light
-   doom-nova
-   doom-oceanic-next
-   doom-one
-   doom-one-light
-   doom-opera
-   doom-opera-light
-   doom-outrun-electric
-   doom-palenight
-   doom-peacock
-   doom-snazzy
-   doom-solarized-dark
-   doom-solarized-light
-   doom-sourcerer
-   doom-spacegrey
-   doom-tomorrow-day
-   doom-tomorrow-night
-   doom-vibrant
-   doom-wilmersdorf
+| Name                 | Light | Dark | Rating | Notes                          |
+|----------------------+-------+------+--------+--------------------------------|
+| doom-Iosvkem         |       | x    |      5 |                                |
+| doom-acario-dark     |       | x    |      3 |                                |
+| doom-acario-light    | x     |      |      3 |                                |
+| doom-challenger-deep |       | x    |      4 |                                |
+| doom-city-lights     |       | x    |      6 |                                |
+| doom-dracula         |       | x    |      6 |                                |
+| doom-fairy-floss     |       | x    |      1 |                                |
+| doom-gruvbox         |       | x    |      4 |                                |
+| doom-laserwave       |       | x    |      5 |                                |
+| doom-material        |       | x    |      6 |                                |
+| doom-molokai         |       | x    |      4 |                                |
+| doom-moonlight       |       | x    |      5 |                                |
+| doom-nord            |       | x    |      5 |                                |
+| doom-nord-light      | x     |      |      7 |                                |
+| doom-nova            |       | x    |      4 | works better in terminal       |
+| doom-oceanic-next    |       | x    |      5 | org snippets look bad          |
+| doom-one             |       | x    |      5 |                                |
+| doom-one-light       | x     |      |      4 | snippets hard to read          |
+| doom-opera           |       | x    |      5 |                                |
+| doom-opera-light     | x     |      |      6 |                                |
+| doom-outrun-electric |       | x    |      6 | fun but a bit hard on the eyes |
+| doom-palenight       |       | x    |      6 |                                |
+| doom-peacock         |       | x    |      5 |                                |
+| doom-snazzy          |       | x    |      2 | snippets dont look great       |
+| doom-solarized-dark  |       | x    |      6 |                                |
+| doom-solarized-light | x     |      |      6 |                                |
+| doom-sourcerer       |       | x    |      6 |                                |
+| doom-spacegrey       |       | x    |      8 |                                |
+| doom-tomorrow-day    | x     |      |      7 | snippet slightly hard to read  |
+| doom-tomorrow-night  |       | x    |      8 |                                |
+| doom-vibrant         |       | x    |      6 |                                |
+| doom-wilmersdorf     |       | x    |      7 |                                |
 
 
 ** GUI settings
