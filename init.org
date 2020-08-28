@@ -1,5 +1,6 @@
 #+TITLE: Emacs Org Configuration File
 #+AUTHOR: Benjamin Edward Oliver
+#+EMAIL: benjamin.e.oliver@gmail.com
 #+PROPERTY: header-args :tangle init-extended.el :padline yes :comments link
 
 The =#+PROPERTY= header allows us to *tangle* this file and produce an emacs lisp file =init-extended.el=.
@@ -185,15 +186,17 @@ I am not actually sure if `eval-when-compile` is required. But the example uses 
 #+BEGIN_SRC emacs-lisp
   (use-package company
     ;; :bind ("TAB" . company-complete)
+    :ensure t
     :config
     (setq company-backends '(company-capf)
-          company-idle-delay nil
-          company-minimum-prefix-length 1)
+	  company-idle-delay nil
+	  company-minimum-prefix-length 1)
     :hook ((emacs-lisp-mode cider-repl-mode cider-mode intero-mode) . company-mode))
 #+END_SRC
 *** Company Quickhelp
 #+BEGIN_SRC emacs-lisp
   (use-package company-quickhelp
+    :ensure t
     :config (company-quickhelp-mode)
     :after (company))
 #+END_SRC
@@ -291,7 +294,7 @@ When creating source code blocks it is nice to have them auto format when pressi
 	  doom-themes-enable-italic t))
 
   (when-gui
-   (load-theme 'doom-nord-light t))
+   (load-theme 'doom-spacegrey t))
 
   (when-terminal
    (load-theme 'doom-nova t))
