@@ -20,14 +20,6 @@ Use =M-x init= to edit this file
 
 * Helper Macros
 
-Create the dual of `when`. I prefer this approach to using `if ... else ...` as it lets us isolate functionaility.
-
-#+BEGIN_SRC emacs-lisp
-  (defmacro when-not (form &rest exprs)
-    `(when (not ,form)
-       ,@exprs))
-#+END_SRC
-
 Create macros that only evaluate the body when we are using a GUI or a terminal
 
 #+BEGIN_SRC emacs-lisp
@@ -36,7 +28,7 @@ Create macros that only evaluate the body when we are using a GUI or a terminal
        ,@exprs))
 
   (defmacro when-terminal (&rest exprs)
-    `(when-not (display-graphic-p) ,@exprs))
+    `(unless (display-graphic-p) ,@exprs))
 #+END_SRC
 
 
@@ -136,11 +128,11 @@ We might as well load the customizations straight away
 I am using the [[https://github.com/jwiegley/use-package][use-package]] library for loading packages
 
 #+BEGIN_SRC emacs-lisp
-(require 'package)
-(package-initialize) ;; is this really the right thing to do?
-(unless (package-installed-p 'use-package)
-(package-refresh-contents)
-(package-install 'use-package))
+  (require 'package)
+  (package-initialize) ;; is this really the right thing to do?
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
 #+END_SRC
 
 In emacs versions prior to 27 we need to `package-initialize` in order to use `use-package`
@@ -170,7 +162,7 @@ I am not actually sure if `eval-when-compile` is required. But the example uses 
 
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
-  :ensure t
+    :ensure t
     :hook ((emacs-lisp-mode clojure-mode) . paredit-mode))
 #+END_SRC
 
@@ -188,7 +180,7 @@ I am not actually sure if `eval-when-compile` is required. But the example uses 
 
 #+BEGIN_SRC emacs-lisp
   (use-package aggressive-indent
-  :ensure t
+    :ensure t
     :hook ((emacs-lisp-mode clojure-mode) . aggressive-indent-mode))
 #+END_SRC
 
@@ -270,10 +262,10 @@ When creating source code blocks it is nice to have them auto format when pressi
 ** Eshell
 #+BEGIN_SRC emacs-lisp
   (use-package eshell
-   :ensure t
-   :bind ("C-c M-DEL" . (lambda () (interactive)
-			  (let ((eshell-buffer-maximum-lines 0))
-			    (eshell-truncate-buffer)))))
+    :ensure t
+    :bind ("C-c M-DEL" . (lambda () (interactive)
+			   (let ((eshell-buffer-maximum-lines 0))
+			     (eshell-truncate-buffer)))))
 #+END_SRC
 
 ** Ido
@@ -281,9 +273,9 @@ When creating source code blocks it is nice to have them auto format when pressi
    [[https://www.emacswiki.org/emacs/InteractivelyDoThings][Ido]] mode is nice for searching
 
 #+BEGIN_SRC emacs-lisp
-    (use-package ido
-      :ensure t
-      :config (ido-mode t))
+  (use-package ido
+    :ensure t
+    :config (ido-mode t))
 #+END_SRC
 
 
@@ -355,6 +347,7 @@ When creating source code blocks it is nice to have them auto format when pressi
      (when (find-font (font-spec :family "PragmataPro"))
        (set-face-attribute 'default nil :family "PragmataPro" :height 130))
    #+End_SRC
+
 
 ** GUI settings
 
