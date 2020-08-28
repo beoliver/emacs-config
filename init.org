@@ -350,6 +350,12 @@ When creating source code blocks it is nice to have them auto format when pressi
 | doom-wilmersdorf     |       | x    |      7 |                                |
 
 
+** Fonts
+   #+BEGIN_SRC emacs-lisp
+     (when (find-font (font-spec :family "PragmataPro"))
+       (set-face-attribute 'default nil :family "PragmataPro" :height 130))
+   #+End_SRC
+
 ** GUI settings
 
 #+BEGIN_SRC emacs-lisp
@@ -361,7 +367,6 @@ When creating source code blocks it is nice to have them auto format when pressi
    (set-frame-position (selected-frame) 50 70)
    (setq-default cursor-type 'bar) ;; bar | block
    (setq-default fill-column 80)
-   ;; (set-face-attribute 'default nil :family "PragmataPro" :height 130)
    (setq-default line-spacing 2)
    (global-linum-mode t)
    (setq linum-format "%4d")
