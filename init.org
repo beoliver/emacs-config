@@ -129,11 +129,19 @@ We might as well load the customizations straight away
 #+BEGIN_SRC emacs-lisp
   (setq package-archives
 	'(("gnu" . "https://elpa.gnu.org/packages/")
-	  ("marmalade" . "https://marmalade-repo.org/packages/")
+	  ;; ("marmalade" . "https://marmalade-repo.org/packages/")
 	  ("melpa" . "https://melpa.org/packages/")))
 #+END_SRC
 
 I am using the [[https://github.com/jwiegley/use-package][use-package]] library for loading packages
+
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(package-initialize) ;; is this really the right thing to do?
+(unless (package-installed-p 'use-package)
+(package-refresh-contents)
+(package-install 'use-package))
+#+END_SRC
 
 In emacs versions prior to 27 we need to `package-initialize` in order to use `use-package`
 
@@ -162,6 +170,7 @@ I am not actually sure if `eval-when-compile` is required. But the example uses 
 
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
+  :ensure t
     :hook ((emacs-lisp-mode clojure-mode) . paredit-mode))
 #+END_SRC
 
@@ -179,6 +188,7 @@ I am not actually sure if `eval-when-compile` is required. But the example uses 
 
 #+BEGIN_SRC emacs-lisp
   (use-package aggressive-indent
+  :ensure t
     :hook ((emacs-lisp-mode clojure-mode) . aggressive-indent-mode))
 #+END_SRC
 
@@ -232,9 +242,10 @@ I am not actually sure if `eval-when-compile` is required. But the example uses 
 
 #+BEGIN_SRC emacs-lisp
   (use-package clj-refactor
+    :ensure t
     :hook ((clojure-mode) . (lambda ()
-                              (yas-minor-mode 1)
-                              (clj-refactor-mode 1))))
+			      (yas-minor-mode 1)
+			      (clj-refactor-mode 1))))
 #+END_SRC
 
 ** Python
@@ -288,16 +299,17 @@ When creating source code blocks it is nice to have them auto format when pressi
 ** Theme
 
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-themes
-    :config
-    (setq doom-themes-enable-bold t
-	  doom-themes-enable-italic t))
+    (use-package doom-themes
+      :ensure t
+      :config
+      (setq doom-themes-enable-bold t
+	    doom-themes-enable-italic t))
 
-  (when-gui
-   (load-theme 'doom-spacegrey t))
+    (when-gui
+     (load-theme 'doom-spacegrey t))
 
-  (when-terminal
-   (load-theme 'doom-nova t))
+    (when-terminal
+     (load-theme 'doom-nova t))
 #+END_SRC
 
 *** Doom Theme names
@@ -349,7 +361,7 @@ When creating source code blocks it is nice to have them auto format when pressi
    (set-frame-position (selected-frame) 50 70)
    (setq-default cursor-type 'bar) ;; bar | block
    (setq-default fill-column 80)
-   (set-face-attribute 'default nil :family "PragmataPro" :height 130)
+   ;; (set-face-attribute 'default nil :family "PragmataPro" :height 130)
    (setq-default line-spacing 2)
    (global-linum-mode t)
    (setq linum-format "%4d")
