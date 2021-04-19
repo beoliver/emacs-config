@@ -144,7 +144,7 @@ I am using the [[https://github.com/jwiegley/use-package][use-package]] library 
 
 #+BEGIN_SRC emacs-lisp
   (require 'package)
-  (pakage-initialize) ;; is this really the right thing to do?
+  (package-initialize) ;; is this really the right thing to do?
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package))
