@@ -17,6 +17,14 @@ Use =M-x init= to edit this file
     (find-file "~/.emacs.d/init.org"))
 #+END_SRC
 
+Use =M-x zshrc= to edit the .zshrc.org file
+
+#+BEGIN_SRC emacs-lisp
+  (defun zshrc ()
+    (interactive)
+    (find-file "~/.zshrc.org"))
+#+END_SRC
+
 
 * Helper Macros
 
@@ -136,7 +144,7 @@ I am using the [[https://github.com/jwiegley/use-package][use-package]] library 
 
 #+BEGIN_SRC emacs-lisp
   (require 'package)
-  (package-initialize) ;; is this really the right thing to do?
+  (pakage-initialize) ;; is this really the right thing to do?
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package))
