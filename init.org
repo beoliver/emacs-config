@@ -107,6 +107,13 @@ We set an explicit file for customized variables. This means that extra data wil
 
 #+BEGIN_SRC emacs-lisp
   (setq custom-file "~/.emacs.d/custom.el")
+#+end_SRC
+
+Create the file if it doesn't exist
+
+#+BEGIN_SRC emacs-lisp
+  (if (not (file-exists-p custom-file))
+    (with-temp-buffer (write-file custom-file)))
 #+END_SRC
 
 We might as well load the customizations straight away
