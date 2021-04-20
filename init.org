@@ -1,9 +1,9 @@
 #+TITLE: Emacs Org Configuration File
 #+AUTHOR: Benjamin Edward Oliver
 #+EMAIL: benjamin.e.oliver@gmail.com
-#+PROPERTY: header-args :tangle init-extended.el :padline yes :comments link
+#+PROPERTY: header-args :tangle generated-init.el :padline yes :comments link
 
-The =#+PROPERTY= header allows us to *tangle* this file and produce an emacs lisp file =init-extended.el=.
+The =#+PROPERTY= header allows us to *tangle* this file and produce an emacs lisp file =generated-init.el=.
 The use of the =padline= and =comments= directives allow for navigation back to this file if there are any issues
 in the generated code. See [[https://orgmode.org/manual/Extracting-Source-Code.html#Extracting-source-code][here]] for more information.
 
